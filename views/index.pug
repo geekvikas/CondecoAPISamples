@@ -1,0 +1,36 @@
+extends layout
+block content
+  .container-fluid.row
+    .btn-group(role='group')
+        input.btn.btn-primary(type='button' id='btnSSO' value='Single SignOn' onclick="location.href='/'")
+        input.btn.btn-primary(type='button' id='btnForms' value='Forms' onclick="location.href='/?authType=forms'")
+    .div
+      br
+    form(action='/auth' method='post')
+      .urlDetails
+        label(for='ServerName') Client URL
+        input.form-control(type='text' name='clientName' placeholder='enterprise' value=clientName)
+        input.form-control(type='text' name='serverName' placeholder='condecosoftware.com' value=serverName)
+      
+        input(type='checkbox' name='secureConnection' checked='true')
+        label(for='SecureConnection') Secure Connection (HTTPS)
+      if authType == 'forms'
+        input(type='hidden' name='authType' valye='forms')
+        hr
+        h3 Please enter your credentials
+        .loginDetails
+          label(for='txt_username') Username
+          input.form-control(type='text' name='txt_username' placeholder='Forms Username')
+          
+          label(for='txt_password') Password
+          input.form-control(type='password' name='txt_password' placeholder='Forms Password')
+      br
+      input.btn.btn-success(type='submit' id='btnGetConfig' value='Login')
+      if errorString
+        br
+        h3
+          span.label.label-danger Error: 
+            =errorString
+
+      
+

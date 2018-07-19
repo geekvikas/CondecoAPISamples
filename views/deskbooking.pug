@@ -1,0 +1,135 @@
+extends layout
+block content
+  .container-fluid
+    .div.row
+      .btn-group(role='group')
+        input.btn.btn-group.btn-warning(type='button' id='btn_home_page' value='Go Home' onclick="location.href='/'")
+        input.btn.btn-group.btn-primary(type='button' id='btn_room_booking' value='Room Booking' onclick="location.href='/RoomBooking'")
+        input.btn.btn-group.btn-primary(type='button' id='btn_desk_booking' value='Desk Booking' onclick="location.href='/DeskBooking'")
+    hr
+    if errorString
+      h3
+        span.label.label-danger Error: 
+          =errorString
+    if(bearer || SessionGUID)
+    .search.col-xs-12
+      .col-xs-12.text-center.bottom-lined
+        .col-xs-3
+          h3 Search
+        .col-xs-3
+          h3 Add Booking
+        .col-xs-3
+          h3 Update Booking
+        .col-xs-3
+          h3 Delete Booking
+      //- Search Column
+      .col-xs-3.side-lined
+        form(action='/api/deskbooking/search' method='post')
+          .col-xs-6
+            label(for='txt_start_date') Start Date (epoch):
+            input.form-control(type='text' name='txt_start_date')
+
+          .col-xs-6
+            label(for='txt_end_date') End Date (epoch):
+            input.form-control(type='text' name='txt_end_date')
+
+          .col-xs-6
+            label(for='txt_location_id') Location Id:
+            input.form-control(type='text' name='txt_location_id')
+
+          .col-xs-6
+            label(for='txt_group_id') Group Id:
+            input.form-control(type='text' name='txt_group_id')
+
+          .col-xs-6
+            label(for='txt_floor_number') Floor Number:
+            input.form-control(type='text' name='txt_floor_number')
+
+          .col-xs-6
+            label(for='txt_number_attending') Attendees:
+            input.form-control(type='text' name='txt_number_attending' value='1')
+          .col-xs-12
+            input.btn.btn-group.btn-primary(type='submit' id='btn_search' value='Search')
+
+      //- Add Booking
+      .col-xs-3.side-lined
+        .col-xs-6
+          label(for='txt_start_date') Start Date (epoch):
+          input.form-control(type='text' name='txt_start_date')
+
+        .col-xs-6
+          label(for='txt_end_date') End Date (epoch):
+          input.form-control(type='text' name='txt_end_date')
+
+        .col-xs-6
+          label(for='txt_location_id') Location Id:
+          input.form-control(type='text' name='txt_location_id')
+
+        .col-xs-6
+          label(for='txt_group_id') Group Id:
+          input.form-control(type='text' name='txt_group_id')
+
+        .col-xs-6
+          label(for='txt_floor_number') Floor Number:
+          input.form-control(type='text' name='txt_floor_number')
+
+        .col-xs-6
+          label(for='txt_number_attending') Attendees:
+          input.form-control(type='text' name='txt_number_attending' value='1')
+
+      
+      //- Update Booking
+      .col-xs-3.side-lined
+        .col-xs-6
+          label(for='txt_start_date') Start Date (epoch):
+          input.form-control(type='text' name='txt_start_date')
+
+        .col-xs-6
+          label(for='txt_end_date') End Date (epoch):
+          input.form-control(type='text' name='txt_end_date')
+
+        .col-xs-6
+          label(for='txt_location_id') Location Id:
+          input.form-control(type='text' name='txt_location_id')
+
+        .col-xs-6
+          label(for='txt_group_id') Group Id:
+          input.form-control(type='text' name='txt_group_id')
+
+        .col-xs-6
+          label(for='txt_floor_number') Floor Number:
+          input.form-control(type='text' name='txt_floor_number')
+
+        .col-xs-6
+          label(for='txt_number_attending') Attendees:
+          input.form-control(type='text' name='txt_number_attending' value='1')
+
+      
+      //- Delete Booking
+      .col-xs-3.side-lined
+        .col-xs-6
+          label(for='txt_start_date') Start Date (epoch):
+          input.form-control(type='text' name='txt_start_date')
+
+        .col-xs-6
+          label(for='txt_end_date') End Date (epoch):
+          input.form-control(type='text' name='txt_end_date')
+
+        .col-xs-6
+          label(for='txt_location_id') Location Id:
+          input.form-control(type='text' name='txt_location_id')
+
+        .col-xs-6
+          label(for='txt_group_id') Group Id:
+          input.form-control(type='text' name='txt_group_id')
+
+        .col-xs-6
+          label(for='txt_floor_number') Floor Number:
+          input.form-control(type='text' name='txt_floor_number')
+
+        .col-xs-6
+          label(for='txt_number_attending') Attendees:
+          input.form-control(type='text' name='txt_number_attending' value='1')
+
+      
+      

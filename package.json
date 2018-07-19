@@ -1,0 +1,29 @@
+{
+  "name": "condecoapisamples",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "start": "node ./bin/www"
+  },
+  "dependencies": {
+    "body-parser": "~1.15.2",
+    "bootstrap-datetimepicker-npm": "^4.17.37-npm",
+    "cookie-parser": "~1.4.3",
+    "debug": "~2.2.0",
+    "express": "~4.14.0",
+    "moment": "^2.22.2",
+    "morgan": "~1.7.0",
+    "passport": "^0.3.2",
+    "passport-ping-oauth2": "^1.0.0",
+    "pug": "~2.0.0-beta6",
+    "request": "^2.79.0",
+    "request-promise": "^4.1.1",
+    "serve-favicon": "~2.3.0",
+    "xml-crypto": "^0.10.1"
+  },
+  "main": "./bin/www",
+  "devDependencies": {},
+  "author": "",
+  "license": "ISC",
+  "description": ""
+}

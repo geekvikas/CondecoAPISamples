@@ -1,0 +1,52 @@
+extends layout
+block content
+  .container-fluid
+    .div.row
+      .btn-group(role='group')
+        input.btn.btn-group.btn-warning(type='button' id='btn_home_page' value='Go Home' onclick="location.href='/'")
+        input.btn.btn-group.btn-primary(type='button' id='btn_room_booking' value='Room Booking' onclick="location.href='/RoomBooking'")
+        input.btn.btn-group.btn-primary(type='button' id='btn_desk_booking' value='Desk Booking' onclick="location.href='/DeskBooking'")
+    hr
+    if (global.SessionGUID)
+      .div
+      label(for='txt_session_guid') Session Guid:
+      if (global.SessionGUID)
+        input.form-control(type='text' name='txt_session_guid' value=SessionGUID)
+      else if (global.session)
+        input.form-control.danger(style='background-color:yellow !important' type='text' name='txt_session_guid' value="Error: " +session.Error.ErrorDescription + " (" + session.Error.ErrorCode + ")")
+    if(global.bearer)
+      .div
+        label(for='txt_access_token') Access Token:
+        input.form-control(type='text' name='txt_access_token' value=bearer_data.access_token)
+
+      .div
+        label(for='txt_refresh_token') Refresh Token:
+        input.form-control(type='text' name='txt_refresh_token' value=bearer_data.refresh_token)
+
+      .div
+        label(for='txt_id_token') Id Token:
+        input.form-control(type='text' name='txt_id_token' value=bearer_data.id_token)
+
+      .div
+        label(for='txt_token_type') Token Type:
+        input.form-control(type='text' name='txt_token_type' value=bearer_data.token_type)
+      
+      .div
+        label(for='txt_expires_in') Expires In:
+        input.form-control(type='text' name='txt_expires_in' value=bearer_data.expires_in)
+    
+    if(global.client_url)
+      .div
+        label(for='txt_client_url') Client URL:
+        input.form-control(type='text' name='txt_client_url'  value=client_url)
+    
+    if(global.oauth_url)
+      .div
+        label(for='txt_oauth_url') OAuth URL:
+        input.form-control(type='text' name='txt_oauth_url'  value=oauth_url)
+      
+    if(global.client_id)
+      .div
+        label(for='txt_client_id') Client Id:
+        input.form-control(type='text' name='txt_client_id' value=client_id)
+    
