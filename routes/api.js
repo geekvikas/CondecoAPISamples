@@ -7,11 +7,30 @@ var passport = require('passport');
 var reqpro = require('request-promise');
 var moment = require('moment');
 
-router.get('/CreateSession', function(req, res) {
-      var bearer = global.bearer;
-      var sessionguid = global.SessionGUID;
 
-      if(typeof bearer === 'undefined' && typeof sessionguid === 'undefined' )
+parseSession = function(data){
+    
+    global.Session = JSON.parse(data);
+    global.SessionGUID = global.Session.SessionGUID;
+    global.UserProfile = {Locations:[]};
+        
+
+    for(c in global.Session.Countries)
+        {
+            for(l in global.Session.Countries[c].Locations)
+            {
+                global.UserProfile.Locations.push({Id: global.Session.Countries[c].Locations[l].Id, Name: global.Session.Countries[c].Name + ' => ' + global.Session.Countries[c].Locations[l].Name});
+
+            }
+        }
+    
+        console.log(global.UserProfile);
+    
+};
+
+router.get('/CreateSession', function(req, res) {
+
+      if(typeof global.bearer === 'undefined' && typeof global.SessionGUID === 'undefined' )
             res.redirect('/?errorString=Unauthorized');
         else
             {
@@ -24,11 +43,8 @@ router.get('/CreateSession', function(req, res) {
                         'Authorization': 'Bearer ' + global.bearer_data.access_token
                         }
                         };
-                    console.log(options);
                     var target = request.get( options, function(err,data){
-                            console.log(data.body)
-                            global.session = JSON.parse(data.body);
-                            global.SessionGUID = global.session.SessionGUID;
+                            parseSession(JSON.parse(data.body));
                             
                             
                             var options = {
@@ -37,20 +53,19 @@ router.get('/CreateSession', function(req, res) {
                                     'Authorization': 'Bearer ' + global.bearer_data.access_token
                                     }
                                 };
+
                             var target = request.get( options, function(err,data){
                                 if(err)
                                     res.redirect('/?errorString=' + err.toString());
                                 else{
-                                    console.log(data.body)
-                                    global.session = JSON.parse(data.body);
-                                    global.SessionGUID = global.session.SessionGUID;
+                                    parseSession(JSON.parse(data.body));
                                     res.redirect('/dashboard')
                                 }
                             })
                     })
                 }
                 //FORMS Login
-                else if(typeof sessionguid !== 'undefined')
+                else if(typeof global.SessionGUID !== 'undefined')
                 {
                     var options = {
                         url: global.client_url + '/MobileAPI/MobileService.svc/User/LoginInformations?token=' + global.SessionGUID + '&languageId=1&currentDateTime=' + moment().format('DD-MM-YYYY'),
@@ -59,23 +74,22 @@ router.get('/CreateSession', function(req, res) {
                         if(err)
                             res.redirect('/?errorString=' + err.toString());
                         else{
-                            console.log(data.body)
-                            global.session = JSON.parse(data.body);
-                            global.SessionGUID = global.session.SessionGUID;
+                            parseSession(data.body);
                             res.redirect('/dashboard')
                         }
                     })
                 }
                 else
-                res.redirect('/?errorString=Unauthorized');
+                    res.redirect('/?errorString=Unauthorized');
                 
             }
-      
+     
 
 });
 
 
 router.post('/RoomBooking/Search', function(req, res) {
+    
     
       if(typeof global.bearer === 'undefined' && typeof global.SessionGUID === 'undefined' )
           res.redirect('/?errorString=Unauthorized');
@@ -84,25 +98,20 @@ router.post('/RoomBooking/Search', function(req, res) {
             var options = {};
 
             postdata = {
-                StartDate: '/Date(' + req.body.txt_start_date + ')/',
-                EndDate: '/Date(' + req.body.txt_end_date + ')/',
+                StartDate: '/Date(' + moment(req.body.txt_start_date,'M/D/YYYY H:mm').valueOf() + ')/',
+                EndDate: '/Date(' + moment(req.body.txt_end_date,'M/D/YYYY H:mm').valueOf() + ')/',
                   locationID: [
                     parseInt(req.body.txt_location_id) || 0
                 ],
-                groupID: [parseInt(req.body.txt_group_id)],
-                floorNum: [
-                    
-                ],
+                groupID: [0],
+                floorNum: [],
                 numberAttending: parseInt(req.body.txt_number_attending)  || 0,
                 UserID: global.SessionGUID,
                 languageId: '1',
                 pageIndex: 1,
                 pageSize: 10
               }
-              
-            if((parseInt(req.body.txt_floor_number) || 0)>0)
-              postdata.floorNum = [parseInt(req.body.txt_floor_number)];
-
+            
             if(typeof global.bearer !== 'undefined')
                 options = {
                   url: global.client_url + '/MobileAPI/MobileService.svc/RoomBookings/RoomSearch',
@@ -116,14 +125,12 @@ router.post('/RoomBooking/Search', function(req, res) {
                 url: global.client_url + '/MobileAPI/MobileService.svc/RoomBookings/RoomSearch',
                 json: postdata
                 };
-            console.log(options);
             var target = request.post( options, function(err,data){
 
                 var response = data.body;
                 if(err)
                     res.redirect('/RoomBooking?errorString=' + err.toString());
                     
-                console.log(response);
                 if(typeof response !=='undefined' && typeof response.Error!== 'undefined' && typeof response.Error.ErrorDescription !== 'undefined')
                 {
                     if(response.Error.ErrorDescription.length>0)

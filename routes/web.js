@@ -27,7 +27,7 @@ router.get('/roombooking', function(req, res, next) {
   if(!(global.bearer || global.SessionGUID))
     res.redirect("/?errorString=Invalid+Session")
   else
-    res.render('roombooking', { title: 'Room Booking - NOT WORKING',errorString:req.query.errorString,success:req.query.success});
+    res.render('roombooking', { title: 'Room Booking - NOT WORKING',errorString:req.query.errorString,success:req.query.success,global:global});
 });
 
 router.get('/deskbooking', function(req, res, next) {
