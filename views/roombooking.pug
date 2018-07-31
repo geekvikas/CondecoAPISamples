@@ -82,7 +82,7 @@ block content
             input.form-control(type='text' name='txt_number_attending' value='1')
 
     .apiresponse.col-xs-12
-      if success==true
+      if success
         .col-xs-12
           hr
           span.label.label-success Last API Call Response: 
@@ -91,15 +91,5 @@ block content
           br
           br
           hr
-      else
-        .col-xs-12
-          hr
-          span.label.label-danger Last API Call Response: 
-          textarea.form-control(rows='10' id='txt_api_response' style="border:2px red solid") 
-            =lastResponse
-          br
-          br
-          hr   
-      
   script.
     flatpickr(document.querySelectorAll('.flatpickr'), {enableTime: true,dateFormat: "m/d/Y H:i"});

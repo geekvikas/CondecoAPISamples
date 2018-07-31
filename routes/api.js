@@ -10,7 +10,11 @@ var moment = require('moment');
 
 parseSession = function(data){
     
-    global.Session = JSON.parse(data);
+    console.log("Parse Data:" + data.toString())
+    if(typeof data !== 'object')
+        global.Session = JSON.parse(data);
+    else
+        global.Session = data;
     global.SessionGUID = global.Session.SessionGUID;
     global.UserProfile = {Locations:[]};
         
@@ -44,7 +48,7 @@ router.get('/CreateSession', function(req, res) {
                         }
                         };
                     var target = request.get( options, function(err,data){
-                            parseSession(JSON.parse(data.body));
+                            parseSession(data.body);
                             
                             
                             var options = {
@@ -58,7 +62,7 @@ router.get('/CreateSession', function(req, res) {
                                 if(err)
                                     res.redirect('/?errorString=' + err.toString());
                                 else{
-                                    parseSession(JSON.parse(data.body));
+                                    parseSession(data.body);
                                     res.redirect('/dashboard')
                                 }
                             })
